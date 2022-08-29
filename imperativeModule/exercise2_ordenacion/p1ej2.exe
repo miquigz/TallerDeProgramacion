@@ -1,0 +1,100 @@
+{
+2.- El administrador de un edificio de oficinas cuenta, en papel, con la información 
+* del pago de las expensas de dichas oficinas. 
+
+Implementar un programa modularizado que:
+a. Genere un vector, sin orden, con a lo sumo las 300 oficinas que administra. De cada oficina se ingresa el código de 
+* identificación, DNI del propietario y valor de la expensa. La lectura finaliza cuando 
+* se ingresa el código de identificación -1, el cual no se procesa.
+* 
+b. Ordene el vector, aplicando el método de inserción, por código de identificación de la oficina.
+* 
+c. Ordene el vector aplicando el método de selección, por código de identificación de la oficina.
+
+}
+program p1ej2;
+const
+	dimF = 300;
+type
+	rangoVec = 1..dimF;
+	
+	oficina = record
+		cod:integer;
+		dni:integer;
+		valor:real;
+	end;
+	
+	vOficinas = array[rangoVec] of oficina;
+
+procedure leerOficina(var ofi:oficina);
+begin
+	writeln('Ingrese codigo de oficina');
+	readln(ofi.cod);
+	if (ofi.cod <> -1) then begin
+		writeln('Ingrese DNI de propietario de oficina');
+		readln(ofi.dni);
+		writeln('Ingrese valor de las expensas');
+		readln(ofi.valor);
+	end;
+end;
+
+procedure cargarVector(var vec:vOficinas; var dimL:rangoVec);
+var
+	ofi:oficina;
+begin
+	dimL:= 1;
+	leerOficina(ofi);
+	while ((dimL < dimF) AND (ofi.cod <> -1) ) do begin
+		vec[dimL]:= ofi;
+		dimL:= dimL + 1;
+		leerOficina(ofi);
+	end;
+end;
+
+procedure ordenarInsercion(var vec:vOficinas; dimL:rangoVec);
+var
+	i, j:rangoVec;
+	act:oficina;
+begin
+	for i:=2 to dimL do begin
+		act:= vec[i];
+		j:= i-1; //empiezo a consultar desde el principio.
+		while ((j > 0) AND (vec[j].cod > act.cod)) do begin
+			writeln('El cod actual es:', act.cod);
+			writeln('El codigo en el while de j es:', vec[j].cod);
+			writeln('El valor de J es :', j);
+			
+			vec[j+1]:= vec[j]; //VOY HACIENDO LUGAR.
+			j:= j - 1; //Voy BAJANDO EN EL VECTOR, PORQ DISMINUYO J
+		end;
+		vec[j+1]:= act;
+	end;
+end;	
+
+procedure ordenarSeleccion(var vec:vOficinas; dimL:rangoVec);
+var
+	i, j, pos:rangoVec;
+	ele:oficina;
+begin
+	for i:=1 to dimL-1 do begin
+		pos:=i; //Pos pasa a ser el Indice actual
+		for j:= i+1 to dimL do
+			if (vec[j].cod < vec[pos].cod)then
+				pos:= j;
+		//Intercambio, primerametne haciendo un corrimiento
+		ele:= vec[pos];
+		vec[pos]:= vec[i];//corrimiento
+		vec[i]:= ele;//FINALMENTE INTERCAMBIO
+	end;
+end;
+
+//Programa principal
+VAR
+	dimL:rangoVec;
+	vec:vOficinas;
+BEGIN
+	cargarVector(vec, dimL);
+	ordenarInsercion(vec, dimL);
+	ordenarSeleccion(vec, dimL);
+END.
+
