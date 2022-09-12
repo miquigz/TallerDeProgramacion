@@ -86,9 +86,11 @@ procedure GenerarVectorListas (var v: vector);
         ant := act;
         act := act^.sig ;
      end;
-     if (act = l)  then l:= nuevo   {el dato va al principio}
-                   else ant^.sig  := nuevo; {va entre otros dos o al final}
-     nuevo^.sig := act ;
+     if (act = l)then
+		l:= nuevo   {el dato va al principio}
+     else
+		ant^.sig:= nuevo; {va entre otros dos o al final}
+	nuevo^.sig := act ;
    end;
 
    

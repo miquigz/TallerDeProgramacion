@@ -1,8 +1,7 @@
 {4.	Un teatro tiene funciones los 7 días de la semana. Para cada día se tiene una lista con las entradas vendidas. Se desea procesar la información de una semana. Implementar un programa que:
 a.	Genere 7 listas con las entradas vendidas para cada día. De cada entrada se lee día (de 1 a 7), código de la obra, asiento y monto. La lectura finaliza con el código de obra igual a 0. Las listas deben estar ordenadas por código de obra de forma ascendente. 
-b.	Genere una nueva lista que totalice la cantidad de entradas vendidas por obra. Esta lista debe estar ordenada por código de obra de forma ascendente.
-}
-program CLASE3EJ4;
+b.	Genere una nueva lista que totalice la cantidad de entradas vendidas por obra. Esta lista debe estar ordenada por código de obra de forma ascendente.}
+program clase3EJ4;
 const
 	dimF = 7;
 type
@@ -28,9 +27,21 @@ type
 	
 	vListas = array[subSemana] of listaEntradas;
 
+//PUNTO A
 procedure leerEntrada(var entr:entrada; var dia:subSemana);
 begin
-	//leer regi
+	writeln('Ingrese cod de obra');
+	readln(entr.cod);
+	if (entr.cod <> 0) then begin
+		writeln('Ingrese asiento:');
+		entr.asiento:= Random (100) + 100;
+		write('Asiento:', entr.asiento);
+		writeln('Ingrese Monto:');
+		entr.asiento:= Random (500) + 100;
+		write('Monto:', entr.monto);
+		writeln('Ingrese DIA');
+		readln(dia);
+	end;
 end;
 
 procedure inicializarVec(var vec:vListas );
@@ -57,7 +68,7 @@ begin
 		ant^.sig:= nuevo;
 	nuevo^.sig:= act;
 end;
-//PUNTO A
+//						PUNTO A
 procedure cargarLista(var vec:vListas);
 var
 	dia:integer;
@@ -104,14 +115,12 @@ begin
 	end;
 end;
 
-
-
-
-
 VAR
-
+	vec:vListas;
+	pri:listaEntradas;
 BEGIN
-	
-	
+	Randomize;
+	inicializarVec(vec);
+	cargarLista(vec);
+	mergeAcumulador(vec, pri);
 END.
-
